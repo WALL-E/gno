@@ -205,7 +205,11 @@ func (m *Machine) doOpStaticTypeOf() {
 			m.PushExpr(x.Left)
 			m.PushOp(OpStaticTypeOf)
 		case SHL, SHR:
-			m.PushOp(OpDefaultTypeOf)
+			/*
+				if !isConst(x.Right) {
+					m.PushOp(OpDefaultTypeOf)
+				}
+			*/
 			m.PushExpr(x.Left)
 			m.PushOp(OpStaticTypeOf)
 		case EQL, LSS, GTR, NEQ, LEQ, GEQ:
@@ -532,8 +536,14 @@ func (m *Machine) doOpStaticTypeOf() {
 // Evaluate the default type of a type; used for shift operators.
 func (m *Machine) doOpDefaultTypeOf() {
 	t := m.PopValue().GetType()
-	dt := defaultTypeOf(t)
-	m.PushValue(TypedValue{
-		T: gTypeType,
-		V: toTypeValue(dt)})
+	if isUntyped(t) {
+		dt := defaultTypeOf(t)
+		m.PushValue(TypedValue{
+			T: gTypeType,
+			V: toTypeValue(dt)})
+	} else {
+		m.PushValue(TypedValue{
+			T: gTypeType,
+			V: toTypeValue(t)})
+	}
 }

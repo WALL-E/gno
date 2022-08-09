@@ -86,7 +86,7 @@ func InjectPackage(store gno.Store, pn *gno.PackageNode) {
 				ctx := m.Context.(ExecContext)
 				res0 := typedInt64(ctx.Timestamp)
 				res1 := typedInt32(0)
-				res2 := typedInt32(0)
+				res2 := typedInt64(0)
 				m.PushValue(res0)
 				m.PushValue(res1)
 				m.PushValue(res2)
