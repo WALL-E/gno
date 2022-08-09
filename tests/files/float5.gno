@@ -5,13 +5,19 @@ import (
 )
 
 func main() {
-	f := float64(0.5)
+	// test float64
+	f := float64(0.3)
 	x := imath.Float64bits(f)
-	e := uint(10)
+	e := uint(40)
+	println(f, x, e, (1 << (64 - e)))
+
+	// test int64
+	println(x &^ 0xFF)
+	x &^= 1<<(64-e) - 1
 	println(f, x, e)
-	//x &^= 1<<(64-12-e) - 1
-	//println(f, x, e)
 }
 
 // Output:
-// 0.5 4602678819172646912 10
+// 0.3 4599075939470750515 40 16777216
+// 4599075939470750464
+// 0.3 4599075939467395072 40
