@@ -123,6 +123,10 @@ type Status struct {
 	Progress Percent       // Overall transfer progress
 }
 
+func (s Status) String() string {
+	return "STATUS{}"
+}
+
 // Status returns current transfer status information. The returned value
 // becomes static after a call to Done.
 func (m *Monitor) Status() Status {

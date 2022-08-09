@@ -35,7 +35,7 @@ type Reader struct {
 
 // NewReader restricts all Read operations on r to limit bytes per second.
 func NewReader(r io.Reader, limit int64) *Reader {
-	return &Reader{r, New(0, 0), limit, true}
+	return &Reader{r, New(0, 0), limit, false} // XXX default false
 }
 
 // Read reads up to len(p) bytes into p without exceeding the current transfer
@@ -60,6 +60,9 @@ func (r *Reader) SetLimit(new int64) (old int64) {
 // Read call on a non-blocking reader returns immediately if no additional bytes
 // may be read at this time due to the rate limit.
 func (r *Reader) SetBlocking(new bool) (old bool) {
+	if new == true {
+		panic("blocking not yet supported")
+	}
 	old, r.block = r.block, new
 	return
 }
@@ -87,7 +90,7 @@ type Writer struct {
 // transfer rate and the default blocking behavior (true) can be changed
 // directly on the returned *Writer.
 func NewWriter(w io.Writer, limit int64) *Writer {
-	return &Writer{w, New(0, 0), limit, true}
+	return &Writer{w, New(0, 0), limit, false} // XXX default false
 }
 
 // Write writes len(p) bytes from p to the underlying data stream without
