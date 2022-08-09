@@ -764,6 +764,7 @@ func Preprocess(store Store, ctx BlockNode, n Node) Node {
 				// General case.
 				lcx, lic := n.Left.(*ConstExpr)
 				rcx, ric := n.Right.(*ConstExpr)
+				fmt.Println("PREPROCESS BINARY", n.Left, lic, n.Right, ric)
 				if lic {
 					if ric {
 						// Left const, Right const ----------------------
@@ -862,6 +863,8 @@ func Preprocess(store Store, ctx BlockNode, n Node) Node {
 								// gno, never with reflect.
 							} else {
 								// convert n.Right to left type.
+								// XXX ugh if it's the same type?
+								fmt.Println("QQQQQQ", lt, n.Right)
 								checkOrConvertType(store, last, &n.Right, lt, false)
 							}
 						}

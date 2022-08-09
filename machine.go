@@ -746,25 +746,26 @@ const (
 	OpBandn Op = 0x38 // &^
 
 	/* Other expression operators */
-	OpEval         Op = 0x40 // eval next expression
-	OpBinary1      Op = 0x41 // X op ?
-	OpIndex1       Op = 0x42 // X[Y]
-	OpIndex2       Op = 0x43 // (_, ok :=) X[Y]
-	OpSelector     Op = 0x44 // X.Y
-	OpSlice        Op = 0x45 // X[Low:High:Max]
-	OpStar         Op = 0x46 // *X (deref or pointer-to)
-	OpRef          Op = 0x47 // &X
-	OpTypeAssert1  Op = 0x48 // X.(Type)
-	OpTypeAssert2  Op = 0x49 // (_, ok :=) X.(Type)
-	OpStaticTypeOf Op = 0x4A // static type of X
-	OpCompositeLit Op = 0x4B // X{???}
-	OpArrayLit     Op = 0x4C // [Len]{...}
-	OpSliceLit     Op = 0x4D // []{value,...}
-	OpSliceLit2    Op = 0x4E // []{key:value,...}
-	OpMapLit       Op = 0x4F // X{...}
-	OpStructLit    Op = 0x50 // X{...}
-	OpFuncLit      Op = 0x51 // func(T){Body}
-	OpConvert      Op = 0x52 // Y(X)
+	OpEval          Op = 0x40 // eval next expression
+	OpBinary1       Op = 0x41 // X op ?
+	OpIndex1        Op = 0x42 // X[Y]
+	OpIndex2        Op = 0x43 // (_, ok :=) X[Y]
+	OpSelector      Op = 0x44 // X.Y
+	OpSlice         Op = 0x45 // X[Low:High:Max]
+	OpStar          Op = 0x46 // *X (deref or pointer-to)
+	OpRef           Op = 0x47 // &X
+	OpTypeAssert1   Op = 0x48 // X.(Type)
+	OpTypeAssert2   Op = 0x49 // (_, ok :=) X.(Type)
+	OpStaticTypeOf  Op = 0x4A // static type of X
+	OpDefaultTypeOf Op = 0x4B // default type of X
+	OpCompositeLit  Op = 0x4C // X{???}
+	OpArrayLit      Op = 0x4D // [Len]{...}
+	OpSliceLit      Op = 0x4E // []{value,...}
+	OpSliceLit2     Op = 0x4F // []{key:value,...}
+	OpMapLit        Op = 0x50 // X{...}
+	OpStructLit     Op = 0x51 // X{...}
+	OpFuncLit       Op = 0x52 // func(T){Body}
+	OpConvert       Op = 0x53 // Y(X)
 
 	/* Native operators */
 	OpArrayLitGoNative  Op = 0x60
@@ -1136,6 +1137,9 @@ func (m *Machine) Run() {
 		case OpStaticTypeOf:
 			m.incrCPU(OpCPUStaticTypeOf)
 			m.doOpStaticTypeOf()
+		case OpDefaultTypeOf:
+			m.incrCPU(OpCPUStaticTypeOf) // XXX
+			m.doOpDefaultTypeOf()
 		case OpCompositeLit:
 			m.incrCPU(OpCPUCompositeLit)
 			m.doOpCompositeLit()

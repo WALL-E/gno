@@ -92,6 +92,8 @@ func InjectPackage(store gno.Store, pn *gno.PackageNode) {
 				m.PushValue(res2)
 			},
 		)
+	// case "internal/os_test":
+	// XXX defined in tests/imports.go
 	case "strconv":
 		pn.DefineGoNativeValue("Itoa", strconv.Itoa)
 		pn.DefineGoNativeValue("Atoi", strconv.Atoi)
@@ -101,6 +103,7 @@ func InjectPackage(store gno.Store, pn *gno.PackageNode) {
 		pn.DefineGoNativeValue("QuoteToASCII", strconv.QuoteToASCII)
 		pn.DefineGoNativeValue("CanBackquote", strconv.CanBackquote)
 		pn.DefineGoNativeValue("IntSize", strconv.IntSize)
+		pn.DefineGoNativeValue("AppendUint", strconv.AppendUint)
 	case "std":
 		// NOTE: some of these are overridden in tests/imports_test.go
 		// Also see stdlibs/InjectPackage.

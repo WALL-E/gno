@@ -201,7 +201,11 @@ func (m *Machine) doOpStaticTypeOf() {
 	case *BinaryExpr:
 		switch x.Op {
 		case ADD, SUB, MUL, QUO, REM, BAND, BOR, XOR,
-			SHL, SHR, BAND_NOT, LAND, LOR:
+			BAND_NOT, LAND, LOR:
+			m.PushExpr(x.Left)
+			m.PushOp(OpStaticTypeOf)
+		case SHL, SHR:
+			m.PushOp(OpDefaultTypeOf)
 			m.PushExpr(x.Left)
 			m.PushOp(OpStaticTypeOf)
 		case EQL, LSS, GTR, NEQ, LEQ, GEQ:
@@ -523,4 +527,13 @@ func (m *Machine) doOpStaticTypeOf() {
 			"unexpected expression of type %v",
 			reflect.TypeOf(x)))
 	}
+}
+
+// Evaluate the default type of a type; used for shift operators.
+func (m *Machine) doOpDefaultTypeOf() {
+	t := m.PopValue().GetType()
+	dt := defaultTypeOf(t)
+	m.PushValue(TypedValue{
+		T: gTypeType,
+		V: toTypeValue(dt)})
 }

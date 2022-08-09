@@ -8,7 +8,12 @@ import (
 	"bytes"
 	"testing"
 	"time"
+
+	ios_test "internal/os_test"
 )
+
+// XXX ugh, I can't even sleep milliseconds.
+// XXX
 
 const (
 	_50ms  = 50 * time.Millisecond
@@ -25,7 +30,7 @@ func nextStatus(m *Monitor) Status {
 		if s := m.Status(); s.Samples != samples {
 			return s
 		}
-		time.Sleep(5 * time.Millisecond)
+		ios_test.Sleep(5 * time.Millisecond)
 	}
 	return m.Status()
 }
@@ -89,7 +94,7 @@ func TestReader(t *testing.T) {
 		{false, start, _300ms, 0, 20, 3, 0, 0, 67, 100, 0, 0, 0},
 	}
 	for i, s := range status {
-		s := s
+		// XXX s := s
 		if !statusesAreEqual(&s, &want[i]) {
 			t.Errorf("r.Status(%v)\nexpected: %v\ngot     : %v", i, want[i], s)
 		}
@@ -144,7 +149,7 @@ func TestWriter(t *testing.T) {
 		{true, start, _500ms, _100ms, 100, 5, 200, 200, 200, 200, 0, 0, 100000},
 	}
 	for i, s := range status {
-		s := s
+		// XXX s := s
 		if !statusesAreEqual(&s, &want[i]) {
 			t.Errorf("w.Status(%v)\nexpected: %v\ngot     : %v\n", i, want[i], s)
 		}

@@ -890,7 +890,8 @@ func ConvertUntypedTo(tv *TypedValue, t Type) {
 				// ok
 			} else {
 				panic(fmt.Sprintf(
-					"ConvertUntypedTo expects more specific target but got %s",
+					"ConvertUntypedTo expects more specific target for %v but got %s",
+					tv.String(),
 					t.String()))
 			}
 		}
