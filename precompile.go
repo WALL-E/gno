@@ -40,6 +40,7 @@ var stdlibWhitelist = []string{
 	"encoding/base64",
 	"encoding/binary",
 	"encoding/xml",
+	"errors",
 	"flag",
 	"fmt",
 	"io",
@@ -52,6 +53,7 @@ var stdlibWhitelist = []string{
 	"strconv",
 	"strings",
 	"text/template",
+	"time",
 	"unicode/utf8",
 
 	// gno
